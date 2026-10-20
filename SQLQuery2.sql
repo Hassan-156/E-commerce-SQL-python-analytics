@@ -1,0 +1,351 @@
+--CREATE Database Doctors_SurgeryDB
+--GO
+--USE Doctors_SurgeryDB
+--GO
+
+--CREATE TABLE Specialism
+--(Specialism_ID INT IDENTITY(1,1) PRIMARY KEY,
+--Specialism_Name NVARCHAR(50),
+--Description NVARCHAR(200) 
+--);
+
+--CREATE TABLE Illness
+--(Illness_ID INT IDENTITY(1,1) PRIMARY KEY,
+--Illness_Name NVARCHAR(50) NOT NULL, 
+--Description NVARCHAR(200),
+--Treatment NVARCHAR(200)
+--);
+
+
+--CREATE TABLE Patients
+--(Patient_ID  INT IDENTITY(1,1) PRIMARY KEY,
+--First_Name  NVARCHAR(50) NOT NULL,
+--Last_Name  NVARCHAR(50) NOT NULL,
+--Date_Of_Birth  DATETIME2 NOT NULL,
+--Gender  NVARCHAR(10) CHECK (Gender IN ('Male', 'Female', 'Other')),
+--Street  NVARCHAR(50) NOT NULL,
+--Area  NVARCHAR(50) NOT NULL,
+--Post_Code  NVARCHAR(50),
+--Phone_Number  NVARCHAR(20) NOT NULL 
+--);
+--SELECT * FROM Doctors;
+--CREATE TABLE Doctors
+--(Doctor_ID  INT IDENTITY(1,1) PRIMARY KEY,
+--Specialism_ID INT NOT NULL,
+--First_Name  NVARCHAR(50) NOT NULL, 
+--Last_Name  NVARCHAR(50) NOT NULL, 
+--Title  NVARCHAR(50) NOT NULL, 
+--Gender  NVARCHAR(10) CHECK (Gender IN ('Male', 'Female', 'Other')),
+--Phone_Number NVARCHAR(20) NOT NULL,
+--CONSTRAINT FK_Doctors_Specialism 
+--FOREIGN KEY (Specialism_ID) REFERENCES Specialism(Specialism_ID)
+--);
+
+--INSERT INTO Doctors (Specialism_ID, First_Name, Last_Name, Title, Gender, Phone_Number)
+--VALUES
+--(2, 'Richard', 'Gilles', 'Dr', 'Male', '+447700901001'),
+--(1, 'Medina', 'Mohamud', 'Dr', 'Female', '+447700901002'),
+--(3, 'George', 'Martin', 'Dr', 'Male', '+447700901003'),
+--(4, 'Julia', 'Roberts', 'Dr', 'Female', '+447700901004'),
+--(5, 'Abdi', 'Mohammed', 'Dr', 'Male', '+447700901005');
+
+
+
+
+--SELECT * FROM Appointments;
+--CREATE TABLE Appointments
+--(Appointment_ID INT IDENTITY(1,1) PRIMARY KEY, 
+--Patient_ID INT NOT NULL,
+--Doctor_ID INT NOT NULL, 
+--Appointment_DateTime  DATETIME2 NOT NULL CHECK (Appointment_DateTime >=SYSDATETIME()),
+--Reason NVARCHAR(200) NULL,
+--FOREIGN KEY (Patient_ID) REFERENCES Patients(Patient_ID),
+--FOREIGN KEY (Doctor_ID) REFERENCES Doctors(Doctor_ID)
+--);
+
+--INSERT INTO Appointments (Patient_ID, Doctor_ID, Appointment_DateTime, Reason)
+--VALUES
+--(1, 3, '2026-06-14 10:45', 'Headache'),
+--(4, 1, '2026-09-22 14:10', 'Follow-up'),
+--(7, 5, '2026-11-03 09:20', 'Chest pain'),
+--(9, 2, '2026-07-18 16:00', NULL),
+--(10, 4, '2026-12-01 11:30', 'Medication review'),
+--(12, 3, '2026-08-27 15:40', 'Back pain'),
+--(13, 1, '2026-10-09 13:15', NULL),
+--(15, 5, '2026-05-29 09:50', 'Skin rash'),
+--(17, 2, '2026-06-03 11:10', 'Fatigue'),
+--(18, 4, '2026-07-25 10:00', NULL),
+--(19, 3, '2026-08-12 12:45', 'Annual check-up'),
+--(21, 5, '2026-09-30 09:30', 'Blood pressure check'),
+--(22, 1, '2026-10-18 14:20', NULL),
+--(23, 2, '2026-11-11 15:10', 'Follow-up'),
+--(24, 4, '2026-12-22 16:40', 'Diabetes review'),
+--(26, 3, '2026-06-19 10:20', NULL),
+--(27, 5, '2026-07-02 11:55', 'Headache'),
+--(28, 1, '2026-08-14 09:10', 'Chest pain'),
+--(29, 2, '2026-09-05 13:40', NULL),
+--(30, 4, '2026-10-27 15:25', 'Medication review'),
+--(31, 3, '2026-11-19 10:50', 'Back pain'),
+--(33, 1, '2026-12-03 14:00', NULL),
+--(34, 5, '2026-06-08 09:30', 'Skin rash'),
+--(35, 2, '2026-07-29 16:20', 'Fatigue'),
+--(36, 4, '2026-08-09 11:45', NULL),
+--(38, 3, '2026-09-16 10:15', 'Annual check-up'),
+--(39, 1, '2026-10-21 12:30', 'Blood pressure check'),
+--(40, 5, '2026-11-28 09:00', NULL),
+--(41, 2, '2026-12-17 15:50', 'Follow-up'),
+--(42, 4, '2026-06-25 10:40', 'Chest pain'),
+--(43, 3, '2026-07-11 14:30', NULL),
+--(44, 1, '2026-08-31 09:20', 'Medication review'),
+--(45, 5, '2026-09-13 11:00', 'Back pain'),
+--(46, 2, '2026-10-04 16:10', NULL),
+--(47, 4, '2026-11-07 13:55', 'Skin rash'),
+--(48, 3, '2026-12-29 10:05', 'Fatigue'),
+--(49, 1, '2026-06-06 15:45', NULL),
+--(50, 5, '2026-07-23 09:35', 'Annual check-up'),
+--(51, 2, '2026-08-18 14:50', 'Blood pressure check'),
+--(52, 4, '2026-09-27 11:25', NULL),
+--(53, 3, '2026-10-30 10:30', 'Follow-up'),
+--(54, 1, '2026-11-15 12:10', 'Chest pain'),
+--(55, 5, '2026-12-09 09:55', NULL),
+--(56, 2, '2026-06-12 16:30', 'Medication review'),
+--(57, 4, '2026-07-06 10:25', 'Back pain'),
+--(58, 3, '2026-08-22 11:50', NULL),
+--(59, 1, '2026-09-09 14:35', 'Skin rash'),
+--(60, 5, '2026-10-14 09:15', 'Fatigue'),
+--(61, 2, '2026-11-24 15:20', NULL),
+--(62, 4, '2026-12-19 10:45', 'Annual check-up'),
+--(63, 3, '2026-06-28 11:35', 'Blood pressure check'),
+--(64, 1, '2026-07-14 16:05', NULL),
+--(65, 5, '2026-08-05 09:25', 'Follow-up'),
+--(66, 2, '2026-09-20 13:55', 'Chest pain'),
+--(67, 4, '2026-10-11 11:15', NULL),
+--(68, 3, '2026-11-02 10:10', 'Medication review'),
+--(69, 1, '2026-12-27 15:30', 'Back pain');
+
+--INSERT INTO Appointments (Patient_ID, Doctor_ID, Appointment_DateTime, Reason)
+--VALUES
+--(2, 4, '2026-06-21 15:20', NULL),
+--(3, 1, '2026-07-09 10:30', 'Headache'),
+--(5, 5, '2026-08-16 11:45', NULL),
+--(6, 3, '2026-09-28 14:50', 'Back pain'),
+--(8, 2, '2026-10-19 09:25', NULL),
+--(11, 4, '2026-11-08 16:10', 'Chest pain'),
+--(14, 1, '2026-12-14 13:40', NULL),
+--(16, 5, '2026-06-30 10:05', 'Follow-up'),
+--(20, 3, '2026-07-27 15:55', NULL),
+--(25, 2, '2026-08-11 09:15', 'Medication review'),
+--(32, 4, '2026-09-03 11:20', NULL),
+--(37, 1, '2026-10-25 16:35', 'Fatigue'),
+--(70, 5, '2026-11-30 10:50', NULL),
+--(71, 3, '2026-12-26 14:10', 'Skin rash'),
+--(72, 2, '2026-06-17 09:40', NULL),
+--(73, 4, '2026-07-31 12:55', 'Annual check-up'),
+--(74, 1, '2026-08-24 15:30', NULL),
+--(75, 5, '2026-09-14 10:00', 'Blood pressure check'),
+--(76, 3, '2026-10-06 11:35', NULL);
+
+
+--SELECT * FROM Diagnosis;
+--CREATE TABLE Diagnosis
+--(Diagnosis_ID INT IDENTITY PRIMARY KEY,
+--Appointment_ID INT NOT NULL,
+--Illness_ID INT NOT NULL,
+--Symptoms NVARCHAR(200),
+--Diagnosis_Notes NVARCHAR(200),
+--Treatment NVARCHAR(200),
+--FOREIGN KEY (Appointment_ID) REFERENCES Appointments(Appointment_ID),
+--FOREIGN KEY (Illness_ID) REFERENCES Illness(Illness_ID)
+--);
+--INSERT INTO Diagnosis (Appointment_ID, Illness_ID, Symptoms, Diagnosis_Notes, Treatment)
+--VALUES
+--(1, 5, 'Shortness of breath', 'Symptoms consistent with mild asthma flare-up.', 'Inhalers'),
+--(2, 11, 'Headache and dizziness', 'Elevated blood pressure detected during consultation.', 'ACE inhibitor'),
+--(3, 10, 'Chest discomfort', 'Chest pain evaluated; possible mild cardiac strain.', 'Nitroglycerin'),
+--(4, 6, 'Skin irritation', 'Skin irritation observed; likely eczema.', 'Hydrocortisone'),
+--(5, 1, 'Frequent urination', 'Signs of poor glucose control; diabetes review needed.', 'Insulin pumps'),
+--(6, 4, 'Joint pain', 'Lower back discomfort linked to bone stress.', 'Physiotherapy'),
+--(7, 2, 'Muscle aches', 'Thyroid imbalance suspected based on symptoms.', 'Levothyroxine'),
+--(8, 7, 'Itchy rash', 'Rash consistent with food allergy reaction.', 'Antihistamine'),
+--(9, 3, 'Pelvic discomfort', 'Pelvic discomfort suggests reproductive health issue.', 'Gonadotropin'),
+--(10, 5, 'Breathing difficulty', 'Breathing difficulty noted; asthma likely.', 'Inhalers'),
+--(11, 11, 'Blurred vision', 'Blood pressure above normal range.', 'ACE inhibitor'),
+--(12, 6, 'Dry itchy skin', 'Dry, itchy skin consistent with eczema.', 'Hydrocortisone'),
+--(13, 1, 'Increased thirst', 'Frequent urination suggests diabetes monitoring.', 'Insulin pumps'),
+--(14, 4, 'Joint stiffness', 'Joint pain indicates possible bone disorder.', 'Physiotherapy'),
+--(15, 5, 'Wheezing', 'Asthma symptoms triggered by exertion.', 'Inhalers'),
+--(16, 7, 'Hives', 'Hives observed; likely food allergy.', 'Antihistamine'),
+--(17, 2, 'Fatigue and aches', 'Muscle aches linked to thyroid dysfunction.', 'Levothyroxine'),
+--(18, 6, 'Skin dryness', 'Skin dryness consistent with eczema.', 'Hydrocortisone'),
+--(19, 11, 'Blurred vision', 'Blurred vision linked to high blood pressure.', 'ACE inhibitor'),
+--(20, 3, 'Pelvic pressure', 'Pelvic pressure suggests reproductive health concern.', 'Gonadotropin'),
+--(21, 5, 'Rapid breathing', 'Breathing fast; asthma flare suspected.', 'Inhalers'),
+--(22, 1, 'Fatigue and thirst', 'Diabetes symptoms require follow-up.', 'Insulin pumps'),
+--(23, 4, 'Joint discomfort', 'Joint stiffness indicates bone disorder.', 'Physiotherapy'),
+--(24, 6, 'Itchy skin', 'Itchy skin consistent with eczema.', 'Hydrocortisone'),
+--(25, 7, 'Red rash', 'Rash suggests allergic reaction to food.', 'Antihistamine'),
+--(26, 2, 'Muscle aches', 'Thyroid dysfunction suspected.', 'Levothyroxine'),
+--(27, 5, 'Shortness of breath', 'Asthma symptoms present.', 'Inhalers'),
+--(28, 11, 'Headache', 'High blood pressure detected.', 'ACE inhibitor'),
+--(29, 6, 'Skin irritation', 'Skin irritation consistent with eczema.', 'Hydrocortisone'),
+--(30, 4, 'Bone pain', 'Bone discomfort noted.', 'Physiotherapy'),
+--(31, 1, 'Frequent urination', 'Diabetes symptoms observed.', 'Insulin pumps'),
+--(32, 7, 'Hives', 'Hives indicate food allergy.', 'Antihistamine'),
+--(33, 5, 'Breathing issues', 'Asthma-related breathing issues.', 'Inhalers'),
+--(34, 6, 'Dry skin', 'Eczema flare-up.', 'Hydrocortisone'),
+--(35, 2, 'Fatigue', 'Thyroid imbalance suspected.', 'Levothyroxine'),
+--(36, 4, 'Joint stiffness', 'Bone pain consistent with disorder.', 'Physiotherapy'),
+--(37, 1, 'Thirst and fatigue', 'Diabetes review required.', 'Insulin pumps'),
+--(38, 11, 'Dizziness', 'Blood pressure elevated.', 'ACE inhibitor'),
+--(39, 6, 'Skin rash', 'Skin rash consistent with eczema.', 'Hydrocortisone'),
+--(40, 5, 'Wheezing', 'Asthma symptoms triggered.', 'Inhalers'),
+--(41, 2, 'Muscle aches', 'Thyroid dysfunction signs present.', 'Levothyroxine'),
+--(42, 7, 'Allergic rash', 'Allergic rash observed.', 'Antihistamine'),
+--(43, 4, 'Bone discomfort', 'Bone discomfort noted.', 'Physiotherapy'),
+--(44, 1, 'Fatigue and urination', 'Diabetes symptoms present.', 'Insulin pumps'),
+--(45, 6, 'Skin redness', 'Eczema symptoms observed.', 'Hydrocortisone'),
+--(46, 5, 'Shortness of breath', 'Asthma flare-up.', 'Inhalers'),
+--(47, 2, 'Muscle aches', 'Thyroid-related muscle aches.', 'Levothyroxine'),
+--(48, 11, 'Headache', 'High blood pressure detected.', 'ACE inhibitor'),
+--(49, 6, 'Dry skin', 'Skin dryness consistent with eczema.', 'Hydrocortisone'),
+--(50, 5, 'Breathing difficulty', 'Asthma symptoms present.', 'Inhalers'),
+--(51, 1, 'Fatigue and thirst', 'Diabetes symptoms require monitoring.', 'Insulin pumps'),
+--(52, 4, 'Joint stiffness', 'Bone stiffness observed.', 'Physiotherapy'),
+--(53, 7, 'Rash', 'Food allergy reaction suspected.', 'Antihistamine'),
+--(54, 6, 'Skin irritation', 'Eczema flare.', 'Hydrocortisone'),
+--(55, 5, 'Breathing issues', 'Asthma-related breathing issues.', 'Inhalers'),
+--(56, 2, 'Muscle aches', 'Thyroid dysfunction suspected.', 'Levothyroxine'),
+--(57, 11, 'Dizziness', 'Blood pressure elevated.', 'ACE inhibitor');
+
+
+
+--SELECT * FROM Specialism;
+--INSERT INTO Specialism
+--(Specialism_Name, Description)
+--VALUES
+--('Endocrinology', 'A medical speciality focusing on Diabetes, Thyroid Dysfunction, Reproductive Health, Bone Disorder.'),
+--('Immunology', 'Specialism dealing with Asthma, Eczema, Food Allergies, Insect Sting Allergies.'),
+--('Cardiology', 'Specialism focusing on Heart Failure, Heart Attack, High Blood Pressure, Irregular Heartbeat.'),
+--('Family physician', 'General medical practitioner responsible for diagnosing illnesses, providing flu treatment, conducting screening tests, assessing health risks, and administering immunisations.'),
+--('Neurology', 'Specialism focused on brain injuries, epilepsy, Parkinson’s disease, and Alzheimer’s disease.');
+
+--SELECT * FROM Illness;
+--INSERT INTO Illness (Illness_Name, Description, Treatment)
+--VALUES
+--('Diabetes', 'Urinating often', 'Insulin pumps'),
+--('Thyroid Dysfunction', 'Muscle aches', 'Levothyroxine'),
+--('Reproductive Health', 'Pelvic pressure', 'Gonadotropin'),
+--('Bone Disorder', 'Joint pain', 'Physiotherapy'),
+--('Asthma', 'Breathing fast', 'Inhalers'),
+--('Eczema', 'Itchy skin', 'Hydrocortisone'),
+--('Food Allergies', 'Itchy red rash (hives)', 'Antihistamine'),
+--('Insect Sting Allergies', 'Swelling', 'Calamine lotion'),
+--('Heart Failure', 'A fast heart rate', 'Antiarrhythmic'),
+--('Heart Attack', 'Chest pain', 'Nitroglycerin'),
+--('High Blood Pressure', 'Blurred vision', 'ACE inhibitor'),
+--('Irregular Heartbeat', 'Palpitations', 'Pacemaker'),
+--('Brain Injury', 'Convulsions and seizures', 'Physical therapy'),
+--('Epilepsy', 'Uncontrollable jerking', 'Carbamazepine'),
+--('Parkinson’s Disease', 'Impaired posture and balance', 'Levodopa'),
+--('Alzheimer’s Disease', 'Memory loss', 'Donepezil');
+
+--SELECT * FROM Patients;
+--INSERT INTO Patients (First_Name, Last_Name, Date_Of_Birth, Gender, Street, Area, Post_Code, Phone_Number)
+--VALUES
+--('Mohammad', 'Gillis', '1993-09-08', 'Male', '1 Back Row', 'Backland', 'NW12 8TY', '+447700912345'),
+--('Jason', 'Yoon', '1997-03-05', 'Male', '1 Backward Walk', 'Tooting', 'SW19 2ZZ', '+447700934821'),
+--('Dania', 'Mighton', '1985-09-17', 'Female', '1 Crooks Walk', 'Chelsea', 'SW6 7UU', '+447700956782'),
+--('Tracy', 'Morris', '1976-01-19', 'Female', '1 Goldenhaven Road', 'Chiswick', 'W4 5RY', '+447700978234'),
+--('Sara', 'Shafiei', '2010-11-15', 'Female', '1 Ladbroke Grove', 'Kensington', 'W10 7EE', '+447700945612'),
+--('Daud', 'Minor', '1998-05-31', 'Male', '1 Leader Road', 'Whitehall', 'WC1 4TY', '+447700967845'),
+--('Sue', 'Lang', '1995-11-16', 'Female', '1 Long Acre Drive', 'Paddington', 'W1 1TY', '+447700923478'),
+--('Rokas', 'Mitchellson', '1998-05-31', 'Male', '1 Nick Lane', 'Putney', 'SW12 4RT', '+447700934567'),
+--('Rokas', 'Mitchellson', '1961-07-02', 'Male', '1 Nick Lane', 'Putney', 'SW12 4RT', '+447700978901'),
+--('Roberta', 'Mitchellson', '1971-07-03', 'Female', '1 Nick Lane', 'Putney', 'SW12 4RT', '+447700912678'),
+--('Tawfeek', 'Thompson', '1993-02-02', 'Male', '1 Offenders Way', 'Acton', 'W4 7WE', '+447700934129'),
+--('Raihan', 'Blanchette', '1997-01-08', 'Male', '10 Downing Street', 'Brixton', 'SW6 5TX', '+447700956341'),
+--('Noah Alessandro', 'Ratcliffe', '2004-01-02', 'Male', '10 Scratchers Lane', 'Tooting', 'SW18 3TT', '+447700978563'),
+--('Shishay', 'Long', '1997-06-08', 'Male', '100 Broad Lane', 'Tottenham', 'N16 5AQ', '+447700945783'),
+--('Cody', 'Carter', '1997-08-07', 'Male', '100 Broadway Lane', 'Putney', 'SW14 9PL', '+447700967934'),
+--('Hayder', 'Watson', '1995-05-14', 'Male', '104 Thomaston Road', 'Backland', 'N12 8TY', '+447700923561'),
+--('Mahid', 'Wysocki', '1986-12-10', 'Male', '105 Mountain Street', 'Acton', 'W4 9KK', '+447700934892'),
+--('Alsadeq', 'Tanner', '2005-08-07', 'Male', '11 Browning Road', 'Peckham', 'SE6 8HG', '+447700956478'),
+--('Michaela', 'Belmont', '1997-12-25', 'Female', '11 Downing Street', 'Putney', 'SW1 5TY', '+447700978245'),
+--('Henry Emanuel', 'Belmont', '1974-02-13', 'Male', '11 Downing Street', 'Putney', 'SW1 5TY', '+447700945982'),
+--('Dania', 'Chandler', '2001-03-02', 'Female', '111 Blender Road', 'Peckham', 'SE6 7TN', '+447700967128'),
+--('Leah', 'Alvarez', '1985-09-17', 'Female', '111 Edge Lane', 'Catford', 'SE7 8EW', '+447700923894'),
+--('Shanaya', 'Vigrass', '1999-06-04', 'Female', '111 Edgehill Lane', 'Peckham', 'SE5 7TY', '+447700934785'),
+--('Abdishakur', 'Bica', '1996-01-19', 'Male', '121 Goldenhaven Road', 'Chiswick', 'W4 5RA', '+447700956892'),
+--('Mustak', 'Kitchen', '1993-11-11', 'Male', '13 Good Luck Lane', 'Peckham', 'SE6 6SD', '+447700978134');
+--('Janice', 'Hussein', '1966-10-07', 'Female', '13 Good Luck Lane', 'Kensington', 'W10 7AS', '+447700912934'),
+--('Janice', 'Tapken', '2002-08-05', 'Female', '130 Cardinal Manning Drive', 'Peckham', 'SE3 8GX', '+447700934562'),
+--('Janice', 'Jones', '1970-01-13', 'Female', '133 Paul Street', 'Kilburn', 'NW10 5RE', '+447700956781'),
+--('Santiago', 'Mowat', '2001-12-13', 'Male', '133 Peter Street', 'Tooting', 'SW18 2WE', '+447700978923'),
+--('Yohou', 'O''Grady', '1997-01-17', 'Male', '14 Broad Lane', 'Tottenham', 'N16 5AD', '+447700945671'),
+--('Abdishakur', 'Kline', '2013-06-15', 'Male', '14 Roadline Lane', 'Lewisham', 'SE16 7LL', '+447700967452'),
+--('Hamza', 'Khan', '1993-09-08', 'Male', '15 Great Northwick Avenue', 'Acton', 'W3 5VV', '+447700923781'),
+--('Shanaya', 'Wilcox', '1995-02-06', 'Female', '15 Great Northwick Avenue', 'Acton', 'W3 9NN', '+447700934891'),
+--('Omar', 'Lindo-Magras', '1985-09-07', 'Male', '15 Leader Road', 'Tooting', 'SW18 3GG', '+447700956234'),
+--('Emirhan', 'Skinner', '2001-05-07', 'Male', '15 Leadership Road', 'Tooting', 'SW19 5FE', '+447700978341'),
+--('Michaela', 'Lee', '1976-10-16', 'Female', '15 Mountain Street', 'Putney', 'SW3 4RT', '+447700945823'),
+--('Kevin', 'Burns', '2003-02-27', 'Male', '17 Cliff Street', 'Peckham', 'SE15 1AP', '+447700967893'),
+--('Michaela', 'Mountford', '2007-04-05', 'Female', '184 Roadline Walk', 'Acton', 'W5 7RT', '+447700923564'),
+--('Mohyedden', 'Smith', '1996-12-23', 'Male', '19 Lancaster Road', 'Kensington', 'W11 3WW', '+447700934782'),
+--('Ottman', 'Penderel', '2012-08-07', 'Male', '19 Lancaster Way', 'Northwick Park', 'HA10 2HP', '+447700956478'),
+--('Alsadeq', 'Wetlow', '1991-08-08', 'Male', '2 Opposition Street', 'Peckham', 'SE6 7TY', '+447700978562'),
+--('Max', 'Waddel', '1996-02-03', 'Male', '207 Lime Road Mews', 'Peckham', 'SE5 7YY', '+447700945612'),
+--('Dania', 'Verma', '1989-07-05', 'Female', '21 Champion Lane', 'Peckham', 'SE5 6YY', '+447700967341'),
+--('Mustak', 'Abdulkarim', '2013-09-08', 'Male', '21 Champion Street', 'Peckham', 'SE5 1AP', '+447700923498'),
+--('Yasir', 'Persaud', '1973-05-04', 'Male', '21 Chesterton Road', 'Kilburn', 'NW10 4RE', '+447700934567'),
+--('Mohyedden', 'Smith', '1973-05-04', 'Male', '21 Chesterton Road', 'Kilburn', 'NW10 4RE', '+447700956983'),
+--('Mohammad Amin', 'Persaud', '2015-11-16', 'Male', '21 Ladbroke Grove', 'Kensington', 'W10 7EE', '+447700978234'),
+--('Mohyedden', 'Smith', '1995-11-16', 'Male', '21 Ladbroke Grove', 'Kensington', 'W10 7EE', '+447700945789'),
+--('Cody', 'Sandeman', '2005-05-10', 'Male', '21 Ladbroke Grove Lane', 'Peckham', 'SE6 7SE', '+447700967845');
+--('Tanya', 'Darnal', '1998-12-25', 'Female', '21 Opposition Street', 'Croydon', 'CR0 4DD', '+447700912845'),
+--('Rikkilei', 'Lontok', '1993-09-08', 'Female', '21 Opposition Street', 'Peckham', 'SE5 6UP', '+447700934918'),
+--('Michaela', 'Rose', '1974-02-13', 'Female', '23 Bread Lane', 'East Ham', 'E16 5TY', '+447700956734'),
+--('Janice', 'Tenby', '1995-05-03', 'Female', '23 Breadcrumbs Lane', 'Acton', 'W3 5QA', '+447700978612'),
+--('Santiago', 'Jangkedtong', '2005-12-23', 'Male', '231 River Road', 'Croydon', 'CR3 7YY', '+447700945734'),
+--('Abdul', 'Ali', '2015-09-08', 'Male', '27 Lime Road Mews', 'Croydon', 'CR0 7YY', '+447700967234'),
+--('Ottman', 'Valdron', '1957-10-16', 'Male', '30 Cardinal Drive', 'Kensington', 'W10 6WW', '+447700923781'),
+--('Anis', 'Chakarov', '2008-12-30', 'Male', '31 River Road', 'Croydon', 'CR3 9YY', '+447700934512'),
+--('Abdishakur', 'Grace', '1992-03-28', 'Male', '317 Cliff Street', 'Tooting', 'SW17 6UT', '+447700956128'),
+--('Abdulrahman', 'Athens', '1996-07-01', 'Male', '321 Opposition Street', 'Acton', 'W4 7YY', '+447700978945'),
+--('Zahra', 'Al-Sadiq', '1994-03-31', 'Female', '33 Paula Lane', 'Acton', 'W6 0HP', '+447700945891'),
+--('Lucky Jasper', 'Wyse', '1981-12-22', 'Male', '33 Stream Road', 'Peckham', 'SE3 8FG', '+447700967981'),
+--('Ottman', 'Chapman', '1957-01-16', 'Male', '33 Stream Road', 'Putney', 'SW3 5TX', '+447700923498'),
+--('Samir', 'Jones', '1996-12-23', 'Male', '34 Smith Street', 'Lewisham', 'SE16 5UL', '+447700934781'),
+--('Edith-Samuel', 'King', '1998-07-02', 'Male', '34 Smithfield Street', 'Putney', 'SW15 4FF', '+447700956782'),
+--('Shanaya', 'Donald', '2003-07-04', 'Female', '4 Long Acre Drive', 'Putney', 'SW16 1DD', '+447700978341'),
+--('Raihan', 'Williams', '1993-02-28', 'Male', '421 Chesterton Lane', 'Acton', 'W3 6SS', '+447700945672'),
+--('John', 'Nyder', '1967-06-11', 'Male', '49 Main Street', 'Peckham', 'SE5 5EE', '+447700967823'),
+--('Alsadeq', 'James', '1993-06-04', 'Male', '49 Main Street', 'Acton', 'W3 8EE', '+447700923781'),
+--('Daud', 'Fisher', '1972-11-09', 'Male', '490 Main Street', 'Tooting', 'SW18 1AG', '+447700934982'),
+--('Leah', 'Blais', '1995-09-14', 'Female', '5 Cardinal Drive', 'Kensington', 'W12 1AA', '+447700956341'),
+--('Mustak', 'Wraxton', '2003-12-09', 'Male', '5 Dyewater Walk', 'Putney', 'SW18 6HA', '+447700978562'),
+--('Rokas', 'Myers', '1966-11-23', 'Male', '5 River Walk', 'Whitehall', 'WC1 2AA', '+447700945893'),
+--('Ahmed', 'Grattan', '2004-11-10', 'Male', '5 Water Street', 'Tooting', 'SW19 6PK', '+447700967452'),
+--('Janice', 'Chrysanthou', '2010-07-29', 'Female', '50 Water Street', 'Croydon', 'CR2 2DD', '+447700923894');
+--('Abdishakur', 'Anders', '2006-12-09', 'Male', '51 Incision Lane', 'Tooting', 'SW19 2WW', '+447700934671'),
+--('Shishay', 'Hannington', '1976-10-16', 'Male', '51 Mountain Street', 'Putney', 'SW3 4AT', '+447700956893'),
+--('Dania', 'Tavener', '1987-12-13', 'Female', '55 Goldenhaven Road', 'Peckham', 'SE3 8FX', '+447700978452'),
+--('Abdul', 'Ali', '1996-02-12', 'Male', '574 Turnpike Lane', 'Bow', 'E23 6AA', '+447700945781'),
+--('Mohyedden', 'Majidian', '1996-12-30', 'Male', '63 Broadbean Lane', 'Catford', 'SE17 8EW', '+447700967981'),
+--('Yohou', 'Kresinski', '1981-10-13', 'Male', '66 Dab Luck Drive', 'Peckham', 'SE6 6SA', '+447700923781'),
+--('Dionisie', 'Bava', '1972-11-09', 'Male', '66 Good Luck Lane', 'Paddington', 'W2 1TY', '+447700934891'),
+--('Kayon', 'Cheshunt', '1969-08-02', 'Male', '7 Cliff Avenue', 'Tottenham', 'N16 4QW', '+447700956234'),
+--('Yolanda', 'Heywood', '1995-05-04', 'Female', '7 Cliff Avenue', 'Acton', 'W4 9RX', '+447700978341'),
+--('Dionisie', 'Whittington', '1978-11-09', 'Male', '7 Clifftop Drive', 'Putney', 'SW18 6HG', '+447700945893'),
+--('Michaela', 'Camara', '1988-07-29', 'Female', '70 Cliff Avenue', 'Chelsea', 'SW16 2DU', '+447700967452'),
+--('Jian Carl', 'Benoit', '2002-11-09', 'Male', '73 Turnpike Road', 'Putney', 'SW12 8GA', '+447700923894'),
+--('Dionisie', 'Mcmanus', '2006-10-15', 'Male', '74 Orange Road', 'Tooting', 'SW18 2WF', '+447700934782'),
+--('Abdul Hannan', 'Chamberlain', '1972-11-09', 'Male', '74 Turnpike Road', 'Putney', 'SW12 8GT', '+447700956128'),
+--('Lucky Jasper', 'Jones', '1994-12-10', 'Male', '9 Knightley Lane', 'Acton', 'W3 1TY', '+447700978945'),
+--('Leah', 'Parr', '1957-04-18', 'Female', '9 Nine Lane', 'Putney', 'SW4 5TY', '+447700945672'),
+--('Leah', 'Lopez', '1998-12-25', 'Female', '9 Oxford Street', 'Kensington', 'W2X 1AA', '+447700967823'),
+--('Abdishakur', 'Vandenberg', '2000-09-05', 'Male', '9 Oxfordshire Street', 'Putney', 'SW17 3XX', '+447700923498'),
+--('Gabor', 'Iliffe', '1982-01-31', 'Male', '90 Main Street', 'Acton', 'W4 5QX', '+447700934982'),
+--('Pacy', 'Rack', '2002-12-10', 'Female', '91 Downing Walk', 'Putney', 'SW15 3TR', '+447700956341'),
+--('Shanaya', 'Thorley', '1994-10-08', 'Female', '91 Opposition Way', 'Putney', 'SW16 8EE', '+447700978562');
+
+

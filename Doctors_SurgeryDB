@@ -1,0 +1,180 @@
+USE Doctors_SurgeryDB;
+GO
+
+--SELECT * FROM Patients; 
+
+--View 1: Patient History View 
+
+-- GO
+-- CREATE VIEW PatientHistoryView AS 
+--     SELECT 
+--         p.Patient_ID,
+--         p.First_Name,
+--         p.Last_Name,
+--         a.Appointment_ID,
+--         a.Appointment_DateTime,
+--         a.Reason, 
+--         d.Illness_ID,
+--         i.Illness_Name,
+--         d.Symptoms,
+--         d.Diagnosis_Notes,
+--         d.Treatment
+--     FROM Patients p
+--     LEFT JOIN Appointments a ON p.Patient_ID = a.patient_ID
+--     LEFT JOIN Diagnosis d ON a.Appointment_ID = d.Appointment_ID
+--     LEFT JOIN Illness i ON d.Illness_ID = i.Illness_ID; 
+-- GO
+
+--SELECT * FROM PatientHistoryView
+-- WHERE Patient_ID = 10;
+
+-- SELECT SCHEMA_NAME(schema_id) AS [Schema], name AS [View Name]
+-- FROM sys.views; 
+
+-- SELECT * FROM Patients
+-- WHERE Area = 'Putney'
+
+-- SELECT Patient_ID, First_Name, Last_Name, Date_Of_Birth, Gender, Street, Area 
+-- FROM Patients
+-- WHERE Area = 'Putney'
+-- ORDER BY Last_Name;
+
+-- SELECT First_Name, Last_Name, Gender, Street, Area
+-- FROM Patients
+-- WHERE Last_Name = 'Belmont'
+-- ORDER BY First_Name;
+
+--View 2 DoctorScheduleView, Show each doctor's upcoming appointments. 
+-- CREATE VIEW DoctorScheduleView AS 
+--     SELECT 
+--         d.Doctor_ID, 
+--         d.First_Name AS Doctor_First_Name, 
+--         d.Last_Name AS Doctor_Last_Name, 
+--         s.Specialism_Name,
+--         a.Appointment_ID, 
+--         a.Appointment_DateTime,
+--         p.First_Name AS Patient_First_Name,
+--         p.Last_Name AS Patient_Last_Name,
+--         a.Reason
+--     FROM Doctors d  
+--     JOIN Specialism s ON d.specialism_ID = s.Specialism_ID  
+--     LEFT JOIN Appointments a ON d.Doctor_ID = a.Doctor_ID  
+--     LEFT JOIN Patients p ON a.Patient_ID = p.Patient_ID; 
+
+    --SELECT * FROM DoctorScheduleView;
+
+--View 3: MissedAppointmentsView, Shows all patients who booked but did not attend. 
+-- CREATE VIEW MissedAppointmentsView AS 
+--     SELECT 
+--         a.Appointment_ID,
+--         p.Patient_ID,
+--         p.First_Name,
+--         p.Last_Name,
+--         a.Doctor_ID, 
+--         a.Appointment_DateTime,
+--         a.Reason 
+--     FROM Appointments a   
+--     JOIN Patients p ON a.Patient_ID = p.Patient_ID 
+--     LEFT JOIN Diagnosis d ON a.Appointment_ID = d.Appointment_ID 
+--     WHERE d.Appointment_ID IS NULL;
+--This works because only attended appointments have diagnosis.  
+
+--SELECT * FROM MissedAppointmentsView;
+
+--2) Stored Procedures, these procedures give you controlled, reuseable operations.  
+--Procedure 1: BookAppointment safely.  
+
+-- CREATE PROCEDURE BookAppointment
+--     @Patient_ID INT, 
+--     @Doctor_ID INT, 
+--     @Appointment_DateTime DATETIME2,
+--     @Reason NVARCHAR(200) = NULL 
+-- AS 
+-- BEGIN 
+--     INSERT INTO Appointments(Patient_ID, Doctor_ID, Appointment_DateTime, Reason)
+--     VALUES ( @Patient_ID, @Doctor_ID, @Appointment_DateTime, @Reason); 
+-- END; 
+
+--SELECT * FROM Doctors; 
+
+--Procedure 2: AddDiagnosis, Adds a diagnosis for an attended appointment.  
+-- CREATE PROCEDURE AddDiagnosis
+--     @Appointment_ID INT, 
+--     @Illness_ID INT, 
+--     @Symptoms NVARCHAR(200),
+--     @Diagnosis_Notes NVARCHAR(200),
+--     @Treatment NVARCHAR(200)
+-- AS
+-- BEGIN 
+--     INSERT INTO Diagnosis(Appointment_ID, Illness_ID, Symptoms, Diagnosis_Notes, Treatment) 
+--     VALUES(@Appointment_ID, @Illness_ID, @Symptoms, @Diagnosis_Notes, @Treatment);
+-- END; 
+
+--Procedure 3: GetPatientHistory, Returns a full medical history for one patient. 
+-- CREATE PROCEDURE GetPatientHistory
+--     @Patient_ID INT 
+-- AS 
+-- BEGIN  
+--     SELECT 
+--         p.First_Name,
+--         p.Last_Name, 
+--         a.Appointment_DateTime,
+--         a.Reason,
+--         i.Illness_Name,
+--         d.Diagnosis_Notes,
+--         d.Treatment
+--     FROM Patients p  
+--     LEFT JOIN Appointments a ON p.Patient_ID = a.Patient_ID 
+--     LEFT JOIN Diagnosis d ON a.Appointment_ID = d.Appointment_ID 
+--     LEFT JOIN Illness i ON d.Illness_ID = i.Illness_ID 
+--     WHERE p.Patient_ID = @Patient_ID 
+--     ORDER BY a.Appointment_DateTime;
+-- END; 
+
+--3) Analytical queries, thses give you insight the kind that you'd use in dashboard or in reports. 
+
+--Query 1: Most common illness. 
+-- SELECT TOP 1
+--     i.Illness_Name,
+--     COUNT(*) AS TotalCases
+-- FROM Diagnosis d  
+-- JOIN Illness i ON d.Illness_ID = i.Illness_ID
+-- GROUP BY i.Illness_Name
+-- ORDER BY TOtalCases;
+
+--Query 2: Busiest Doctor(Most Appointment)
+-- SELECT TOP 1 
+--     d.Doctor_ID,
+--     d.First_Name,
+--     d.Last_name,
+--     COUNT(a.Appointment_ID) AS TotalAppointments 
+-- FROM Doctors d  
+-- LEFT JOIN Appointments a ON d.Doctor_ID = a.Doctor_ID
+-- GROUP BY d.Doctor_ID, d.First_Name, d.Last_Name
+-- ORDER BY TotalAppointments;
+
+--Query 3: Patient with no Appointments 
+-- SELECT 
+--     P.patient_ID,
+--     p.First_Name,
+--     p.Last_Name
+-- FROM Patients p   
+-- LEFT JOIN Appointments a ON p.Patient_ID = a.Patient_ID 
+-- WHERE a.Patient_ID IS NULL; 
+
+--Query 4: Missed Appointments Rate. 
+SELECT 
+    (SELECT COUNT(*) FROM Appointments) AS TotalBooked, 
+    (SELECT COUNT(*)
+    FROM Appointments a   
+    LEFT JOIN Diagnosis d ON a.Appointment_ID = d.Appointment_ID
+    WHERE d.Appointment_ID IS NULL) AS Missed,
+    CAST(
+        (SELECT COUNT(*)
+        FROM Appointments a  
+        LEFT JOIN Diagnosis d ON a.Appointment_ID = d.Appointment_ID
+        WHERE d.Appointment_ID IS NULL) * 100.0/
+        (SELECT COUNT(*) FROM Appointments) 
+    AS DECIMAL(5,2)) AS MissedPercentage;
+
+    

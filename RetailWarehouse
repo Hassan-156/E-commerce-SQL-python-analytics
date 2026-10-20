@@ -1,0 +1,118 @@
+USE RetailWarehouse
+GO 
+
+--SELECT * FROM Products; 
+
+-- Count Rows.
+-- SELECT
+--     (SELECT COUNT(*) FROM Products) AS Products,
+--     (SELECT COUNT(*) FROM Categories) AS Categories,
+--     (SELECT COUNT(*) FROM Variants) AS Variants,
+--     (SELECT COUNT(*) FROM Prices) AS Prices;
+
+--Variant with product title
+-- SELECT
+--     v.variant_id,
+--     p.title,
+--     v.price
+-- FROM Variants v 
+-- JOIN Products p  
+--     ON v.product_id = p.product_id;
+
+--Prices with product plus variant info. 
+-- SELECT 
+--     p.title,
+--     v.variant_id,
+--     pr.price
+--  FROM Prices pr 
+--  JOIN Variants v ON pr.variant_id = v.variant_id 
+--  JOIN Products p ON v.product_id = p.product_id;
+
+--3. Analytical Queries. 
+
+--Average Price Per Product
+-- SELECT 
+--     p.title,
+--     AVG(v.price) AS avg_price
+-- FROM Products p  
+-- JOIN Variants v ON p.product_id = v.product_id
+-- GROUP BY p.title 
+-- ORDER BY avg_price DESC;
+
+--Most Expensive variant. 
+-- SELECT TOP 1 
+--     v.variant_id,
+--     p.title,
+--     v.price
+-- FROM Variants v 
+-- JOIN Products p ON v.product_id = p.product_id
+-- ORDER BY v.price DESC;
+
+-- Cheapest Variant. 
+-- SELECT TOP 1 
+--     v.variant_id,
+--     p.title,
+--     v.price 
+-- FROM Variants v 
+-- JOIN Products p ON v.product_id = p.product_id 
+-- ORDER BY v.price ASC;
+
+--4 Window functions, rank products by average price. 
+-- SELECT 
+--     p.title,
+--     AVG(v.price) AS avg_price,
+--     RANK() OVER (ORDER BY AVG(v.price) DESC) AS price_rank 
+-- FROM Products p  
+-- JOIN Variants v ON p.product_id = v.product_id 
+-- GROUP BY p.title;
+
+--5. CTEs, Products with more than 5 variants. 
+-- WITH VariantCounts AS (
+--     SELECT 
+--         product_id,
+--         COUNT(*) AS variant_count
+--     FROM Variants 
+--     GROUP BY product_id 
+-- ) 
+
+-- SELECT 
+--     p.title,
+--     v.variant_count
+-- FROM VariantCounts v 
+-- JOIN Products p ON p.product_id = v.product_id 
+-- WHERE v.variant_count > 5;
+
+--6. Subqueries, product priced above the overall average. 
+-- SELECT DISTINCT
+--     p.title 
+-- FROM Products p  
+-- JOIN Variants v ON p.product_id = v.product_id
+-- WHERE v.price > (SELECT AVG(price) FROM Variants);
+
+--7. Practical Retail Queries, Product, Category, and Lowest Price. 
+-- SELECT 
+--     p.title, 
+--     c.category_name,
+--     MIN(v.price) AS Lowest_price
+-- FROM Products p  
+-- JOIN Categories c ON p.category_id =c.category_id 
+-- JOIN Variants v ON p.product_id = v.product_id  
+-- GROUP BY p.title, c.category_name 
+-- ORDER BY Lowest_price ASC;
+
+--Products with no variants. 
+-- SELECT p.* 
+-- FROM Products p  
+-- LEFT JOIN Variants v ON p.product_id = v.product_id 
+-- WHERE v.variant_id IS NULL;
+
+--8. Image preview. 
+-- SELECT 
+--     title, 
+--     image_url
+-- FROM Products;
+
+--SELECT * FROM Categories;
+-- SELECT * FROM Prices;
+--SELECT * FROM Variants;
+--SELECT * FROM Products;

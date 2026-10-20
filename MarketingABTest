@@ -1,0 +1,62 @@
+USE MarketingABTest
+GO 
+--SELECT * FROM campaign_results; 
+
+-- Count users in each test group and calculate percentage of total users.
+-- SELECT
+--     test_group,
+--     COUNT(*) AS users,
+--     ROUND(COUNT(*) * 100.0 / SUM(COUNT(*)) OVER (), 2) AS pct_of_total
+-- FROM campaign_results
+-- GROUP BY test_group; 
+
+-- Calculate conversion rates for each test group. Do people who see the ad convert at a higher rate than those who don't?
+ -- In T-SQL, booleans are represented as bit (0/1), not TRUE/FALSE literals.
+-- SELECT TOP 200
+--     test_group,
+--     COUNT(*) as total_users,
+--     SUM(CASE WHEN converted = 1 THEN 1 ELSE 0 END) AS converted_users,
+--     ROUND(
+--         SUM(CASE WHEN converted = 1 THEN 1 ELSE 0 END) * 100.0 / COUNT(*), 2 
+--     ) AS conversion_rate_pct
+-- FROM campaign_results
+-- GROUP BY test_group
+-- ORDER BY conversion_rate_pct DESC
+-- OFFSET 0 ROWS
+-- FETCH NEXT 200 ROWS ONLY;
+
+--SELECT user_id, test_group, converted
+--FROM campaign_results; 
+
+--SELECT * FROM campaign_results;
+
+--(1) Count users in each test group and calculate percentage of total users.
+-- SELECT   test_group,
+--          COUNT(user_id) AS Total_users,
+--          SUM(CAST (Converted AS INT)) AS Total_conversion,
+--          (SUM(CAST (Converted AS INT)) * 100.0) / COUNT(user_id) AS Conversion_Rate_percentage
+-- FROM     campaign_results
+-- GROUP BY test_group;
+
+--(2) Count users in each test group and calculate percentage of total users.
+
+-- SELECT 
+-- test_group,
+-- total_ads,
+-- COUNT(user_id) AS User_Count,
+-- SUM(CAST(Converted AS INT)) AS total_conversion
+-- FROM campaign_results
+-- GROUP BY test_group, total_ads
+-- HAVING COUNT(user_id) > 100
+-- ORDER BY test_group, total_ads;
+
+
+
+SELECT TOP 5
+    most_ads_hour,
+    COUNT(user_id) AS total_users,
+    SUM(CAST(converted AS INT)) AS Conversions
+    FROM campaign_results
+    WHERE test_group = 'Ad'
+    GROUP BY most_ads_hour
+    ORDER BY Conversions DESC;
