@@ -52,11 +52,11 @@ GO
 
 
 
-SELECT TOP 5
-    most_ads_hour,
-    COUNT(user_id) AS total_users,
-    SUM(CAST(converted AS INT)) AS Conversions
-    FROM campaign_results
-    WHERE test_group = 'Ad'
-    GROUP BY most_ads_hour
-    ORDER BY Conversions DESC;
+-- SELECT TOP 5
+--     most_ads_hour,
+--     COUNT(user_id) AS total_users,
+--     SUM(CAST(converted AS INT)) AS Conversions
+--     FROM campaign_results
+--     WHERE test_group = 'Ad'
+--     GROUP BY most_ads_hour
+--     ORDER BY Conversions DESC;

@@ -870,14 +870,13 @@
 --     END AS MovieType 
 -- FROM Cinema;
 
-SELECT * 
-FROM Cinema
-WHERE Description <> 'Boring' 
-    AND Id % 2 = 1
-    ORDER BY Rating DESC;
-
 -- SELECT * 
--- FROM INFORMATION_SCHEMA.TABLES; 
+-- FROM Cinema
+-- WHERE Description <> 'Boring' 
+--     AND Id % 2 = 1
+--     ORDER BY Rating DESC;
+
+-- SELECT * FROM INFORMATION_SCHEMA.TABLES; 
 
 -- SELECT s.name AS SchemaName, t.name AS TableName
 -- FROM sys.tables t
